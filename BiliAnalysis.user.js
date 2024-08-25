@@ -5,7 +5,7 @@
 // @description  try to take over the world!
 // @author       Miro(https://vrchat.com/home/user/usr_20b8e0e4-9e16-406a-a61d-8a627ec1a2e3)
 // @match        https://www.bilibili.com/video*
-// @match        https://www.bilibili.com/*bvid*
+// @match        https://www.bilibili.com/*avid*
 // @downloadURL  https://raw.githubusercontent.com/529565622/BiliAnalysis/main/BiliAnalysis.user.js
 // @updateURL    https://raw.githubusercontent.com/529565622/BiliAnalysis/main/BiliAnalysis.user.js
 // @grant        GM_xmlhttpRequest
@@ -30,13 +30,13 @@
   // 按钮点击事件
   function clickBotton() {
     var url = window.location.href;
-    var BV = /(?=BV).*?(?=\?|\/)/;
+    var BV = /(?=av).*?(?=\?|\/)/;
     var P = /(?<=p=).*?(?=&vd)/;
     var BV1 = url.match(BV);
     var P1 = url.match(P);
 
     if (BV1 == null) {
-      BV1 = url.match(/(?<=bvid=).*?(?=&)/);
+      BV1 = url.match(/(?<=aid=).*?(?=&)/);
     }
 
     if (P1 == null) {
@@ -44,8 +44,9 @@
     }
 
     // 获取cid
+      BV1 = BV1[0].substring(2);
     var httpRequest = new XMLHttpRequest();
-    httpRequest.open('GET', 'https://api.bilibili.com/x/player/pagelist?bvid=' + BV1, true);
+    httpRequest.open('GET', 'https://api.bilibili.com/x/player/pagelist?aid=' + BV1, true);
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
       if (httpRequest.readyState == 4 && httpRequest.status == 200) {
@@ -55,7 +56,7 @@
 
         // 获取视频链接
         var httpRequest1 = new XMLHttpRequest();
-        httpRequest1.open('GET', 'https://api.bilibili.com/x/player/playurl?bvid=' + BV1 + '&cid=' + cid + '&qn=116&type=&otype=json&platform=html5&high_quality=1', true);
+        httpRequest1.open('GET', 'https://api.bilibili.com/x/player/playurl?avid=' + BV1 + '&cid=' + cid + '&qn=116&type=&otype=json&platform=html5&high_quality=1', true);
         httpRequest1.withCredentials = true;
         httpRequest1.send();
         httpRequest1.onreadystatechange = function () {
